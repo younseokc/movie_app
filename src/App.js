@@ -31,7 +31,7 @@ Food.propTypes = {
   picture:PropTypes.string.isRequired,
   rating:PropTypes.number.isRequired
 }
-// props의 성격을 나타내주는 것
+// props의 성격을 나타내주는 것.
 
 function App(){
   return(
@@ -42,4 +42,4 @@ function App(){
   );
 }
 
-export default App;;
+export default App;
