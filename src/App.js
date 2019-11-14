@@ -8,9 +8,14 @@ class App extends React.Component{
   }
   add =() => {
     console.log('add')
+    this.setState(current => ({count: current.count +1 }));
+
+    //setState 상태를 바꿀 수 있다. 
+    //매 순간 setState를 호출할 떄마다 react는 새로운 state와 함꼐 render function을 호출한다.
   };
   minus =() => {
     console.log('minus')
+    this.setState(current => ({count: current.count -1 }));
   };
   render(){
     return (
