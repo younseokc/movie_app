@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class App extends React.Component{
-  
+
   state ={
     count : 0
   }
@@ -17,7 +17,18 @@ class App extends React.Component{
     console.log('minus')
     this.setState(current => ({count: current.count -1 }));
   };
+  componentDidMount(){
+    console.log('component render')
+  }
+  componentDidUpdate(){
+    console.log('i just got update')
+  }
+  componentWillUnmount(){
+    console.log('goodbye ')
+    //component는 어떤 component가 끝날 때 실행된다.
+  }
   render(){
+    console.log('im rendering')
     return (
       <div>
           <h1>아 힘드네: {this.state.count}</h1>
@@ -29,3 +40,6 @@ class App extends React.Component{
   }
 
 export default App;
+
+
+//mounting constructor javascript 에서 class를 호출할 때 사용함. 
