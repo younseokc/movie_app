@@ -1,45 +1,62 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import axios from 'axios';
+import Movie from './Movie';
+import "./App.css";
 
-class App extends React.Component{
+class App extends React.Component {
 
-  state ={
-    count : 0
-  }
-  add =() => {
-    console.log('add')
-    this.setState(current => ({count: current.count +1 }));
-
-    //setState 상태를 바꿀 수 있다. 
-    //매 순간 setState를 호출할 떄마다 react는 새로운 state와 함꼐 render function을 호출한다.
-  };
-  minus =() => {
-    console.log('minus')
-    this.setState(current => ({count: current.count -1 }));
-  };
-  componentDidMount(){
-    console.log('component render')
-  }
-  componentDidUpdate(){
-    console.log('i just got update')
-  }
-  componentWillUnmount(){
-    console.log('goodbye ')
-    //component는 어떤 component가 끝날 때 실행된다.
-  }
-  render(){
-    console.log('im rendering')
-    return (
-      <div>
-          <h1>아 힘드네: {this.state.count}</h1>
-          <button onClick={this.add}>ADD</button>
-          <button onClick={this.minus}>Minus</button>
-      </div>
-      );
+state = {
+  isLoading: true,
+  movies : []
+};
+getMovies = async () => {
+  const {
+    data : {
+      data:{movies}
     }
-  }
+  } = await axios.get(
+    "https://yts-proxy.now.sh/list_movies.json?sort_by=rating"
+  );  
+  this.setState({movies, isLoading : false})
+  console.log(movies)
+}
+// await는 async가 없으면 사용할 수 없다.
 
+componentDidMount(){
+  this.getMovies()
+}
+
+render(){
+  const { isLoading, movies }= this.state;
+  return( 
+  <section className="container">
+    {isLoading ? (
+      <div className="loader">
+        <span className="loader__text">Loading...</span>
+      </div>
+      ) : ( 
+        <div className="movies">
+          {movies.map(movie => (
+            <Movie 
+              key={movie.id}
+              id={movie.id} 
+              year={movie.year} 
+              title={movie.title} 
+              summary={movie.summary} 
+              poster={movie.medium_cover_image} 
+            />
+          ))}
+        </div>
+        )}
+      </section>
+    );
+  }
+}
 export default App;
 
 
-//mounting constructor javascript 에서 class를 호출할 때 사용함. 
+// application을 mount(생겨날 떄)할 때, mount 되자마자 isLoading은 기본적으로 true다.
+
+//처음에 render를 하면 호출되는 life cycle method는 무엇일까 -> componentDidMount
+
+//fectch = axios axios 는 fetch위에 있는 작은 layer  axios는 땅콩위에 있는 초콜릿과 같다.
